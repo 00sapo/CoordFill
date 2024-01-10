@@ -1,0 +1,37 @@
+[project]
+name = "coordfill"
+version = "0.1.0"
+description = "CoordFill image inpainting method"
+authors = [
+  { name = "Federico Simonetta", email = "22996003+00sapo@users.noreply.github.com" },
+]
+dependencies = [
+    "torchvision>=0.16.2",
+    "setuptools>=69.0.3",
+    "fire>=0.5.0",
+    "kornia>=0.7.1",
+    "scikit-image>=0.22.0",
+]
+requires-python = ">=3.10"
+readme = "README.md"
+license = { text = "MIT" }
+
+[project.scripts]
+coordfill = "coordfill.coordfill"
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm]
+package-type = "library"
+
+[tool.pdm.build]
+includes = ["src/coordfill/"]
+
+[tool.pdm.options]
+add = ["--no-self"]
+build = ["--no-sdist"]
+
+[tool.pdm.dev-dependencies]
+dev = ["ipdb>=0.13.13"]
