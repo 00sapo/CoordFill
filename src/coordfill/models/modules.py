@@ -48,17 +48,12 @@ class CoordFillGenerator(BaseNetwork):
         num_params = self.highres_stream.num_params
         self.lowres_stream = ParaGenNet(num_params, scale_injection=opt.scale_injection)
 
-    def use_gpu(self):
-        return len(self.gpu_ids) > 0
-
     def get_lowres(self, im):
         """Creates a lowres version of the input."""
-        device = self.use_gpu()
         if self.learned_ds_factor != self.downsampling:
             myds = BilinearDownsample(
                 int(self.downsampling // self.learned_ds_factor),
                 self.num_inputs,
-                device,
             )
             return myds(im)
         else:
@@ -354,4 +349,3 @@ class PixelQueryNet(th.nn.Module):
         out = out.contiguous().view(bs, self.num_outputs, h, w)
 
         return out
-

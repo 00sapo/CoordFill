@@ -45,10 +45,8 @@ def tensor2im(image_tensor, imtype=np.uint8, cent=1.0, factor=255.0 / 2.0):
 class PNet(nn.Module):
     """Pre-trained network with all channels equally weighted by default"""
 
-    def __init__(self, pnet_type="vgg", pnet_rand=False, use_gpu=True):
+    def __init__(self, pnet_type="vgg", pnet_rand=False):
         super(PNet, self).__init__()
-
-        self.use_gpu = use_gpu
 
         self.pnet_type = pnet_type
         self.pnet_rand = pnet_rand
@@ -74,11 +72,6 @@ class PNet(nn.Module):
             self.net = pn.squeezenet(pretrained=not self.pnet_rand, requires_grad=False)
 
         self.L = self.net.N_slices
-
-        if use_gpu:
-            self.net.cuda()
-            self.shift = self.shift.cuda()
-            self.scale = self.scale.cuda()
 
     def forward(self, in0, in1, retPerLayer=False):
         in0_sc = (in0 - self.shift.expand_as(in0)) / self.scale.expand_as(in0)
@@ -113,13 +106,11 @@ class PNetLin(nn.Module):
         pnet_rand=False,
         pnet_tune=False,
         use_dropout=True,
-        use_gpu=True,
         spatial=False,
         version="0.1",
     ):
         super(PNetLin, self).__init__()
 
-        self.use_gpu = use_gpu
         self.pnet_type = pnet_type
         self.pnet_tune = pnet_tune
         self.pnet_rand = pnet_rand
@@ -160,22 +151,6 @@ class PNetLin(nn.Module):
         self.scale = torch.autograd.Variable(
             torch.Tensor([0.458, 0.448, 0.450]).view(1, 3, 1, 1)
         )
-
-        if use_gpu:
-            if self.pnet_tune:
-                self.net.cuda()
-            else:
-                self.net[0].cuda()
-            self.shift = self.shift.cuda()
-            self.scale = self.scale.cuda()
-            self.lin0.cuda()
-            self.lin1.cuda()
-            self.lin2.cuda()
-            self.lin3.cuda()
-            self.lin4.cuda()
-            if self.pnet_type == "squeeze":
-                self.lin5.cuda()
-                self.lin6.cuda()
 
     def forward(self, in0, in1):
         in0_sc = (in0 - self.shift.expand_as(in0)) / self.scale.expand_as(in0)
@@ -272,21 +247,15 @@ class Dist2LogitLayer(nn.Module):
 
 
 class BCERankingLoss(nn.Module):
-    def __init__(self, use_gpu=True, chn_mid=32):
+    def __init__(self, chn_mid=32):
         super(BCERankingLoss, self).__init__()
-        self.use_gpu = use_gpu
         self.net = Dist2LogitLayer(chn_mid=chn_mid)
         self.parameters = list(self.net.parameters())
         self.loss = torch.nn.BCELoss()
         self.model = nn.Sequential(*[self.net])
 
-        if self.use_gpu:
-            self.net.cuda()
-
     def forward(self, d0, d1, judge):
         per = (judge + 1.0) / 2.0
-        if self.use_gpu:
-            per = per.cuda()
         self.logit = self.net.forward(d0, d1)
         return self.loss(self.logit, per)
 
@@ -312,9 +281,8 @@ class NetLinLayer(nn.Module):
 
 # L2, DSSIM metrics
 class FakeNet(nn.Module):
-    def __init__(self, use_gpu=True, colorspace="Lab"):
+    def __init__(self, colorspace="Lab"):
         super(FakeNet, self).__init__()
-        self.use_gpu = use_gpu
         self.colorspace = colorspace
 
 

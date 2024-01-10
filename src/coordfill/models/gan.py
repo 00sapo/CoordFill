@@ -114,8 +114,6 @@ class GAN(nn.Module):
     def __init__(self, encoder_spec=None):
         super().__init__()
 
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
         from argparse import Namespace
 
         args = Namespace()
@@ -149,10 +147,6 @@ class GAN(nn.Module):
         self.optimizer_D = torch.optim.Adam(self.discriminator.parameters(), lr=1e-4)
 
     def set_input(self, inp, gt, input_mask):
-        self.input = inp.to(self.device)
-        self.gt = gt.to(self.device)
-        self.input_mask = input_mask.to(self.device)
-
         if self.multi_res_training:
             ratio = random.randint(0, 8)
             size = 256 + 32 * ratio

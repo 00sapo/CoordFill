@@ -7,7 +7,7 @@ from torch.nn import init
 
 
 class MySeparableBilinearDownsample(torch.nn.Module):
-    def __init__(self, stride, channels, use_gpu):
+    def __init__(self, stride, channels):
         super().__init__()
         self.stride = stride
         self.channels = channels
@@ -15,12 +15,7 @@ class MySeparableBilinearDownsample(torch.nn.Module):
         # create tent kernel
         kernel = np.arange(1, 2 * stride + 1, 2)  # ramp up
         kernel = np.concatenate((kernel, kernel[::-1]))  # reflect it and concatenate
-        if use_gpu:
-            kernel = torch.Tensor(kernel / np.sum(kernel)).to(
-                device="cuda"
-            )  # normalize
-        else:
-            kernel = torch.Tensor(kernel / np.sum(kernel))
+        kernel = torch.Tensor(kernel / np.sum(kernel))
         self.register_buffer(
             "kernel_horz", kernel[None, None, None, :].repeat((self.channels, 1, 1, 1))
         )
@@ -195,4 +190,3 @@ class BaseNetwork(nn.Module):
         for m in self.children():
             if hasattr(m, "init_weights"):
                 m.init_weights(init_type, gain)
-

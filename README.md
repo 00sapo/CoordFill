@@ -43,7 +43,7 @@ save_image(pred.cpu(), "out.png")
 ### CLI
 
 - `coordfill - --help` for help
-- `coordfill input.png mask.png output.png`
+- `coordfill input.png mask.png output.png --gpu`
 - Options: `--gpu`, `--resize`, `--weights`
 
 ## 🛎 Citation

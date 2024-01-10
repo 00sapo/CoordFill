@@ -133,10 +133,6 @@ class DistModel(BaseModel):
         self.input_ref = in0
         self.input_p0 = in1
 
-        if self.use_gpu:
-            self.input_ref = self.input_ref.cuda()
-            self.input_p0 = self.input_p0.cuda()
-
         self.var_ref = Variable(self.input_ref, requires_grad=True)
         self.var_p0 = Variable(self.input_p0, requires_grad=True)
 
@@ -199,12 +195,6 @@ class DistModel(BaseModel):
         self.input_p0 = data["p0"]
         self.input_p1 = data["p1"]
         self.input_judge = data["judge"]
-
-        if self.use_gpu:
-            self.input_ref = self.input_ref.cuda()
-            self.input_p0 = self.input_p0.cuda()
-            self.input_p1 = self.input_p1.cuda()
-            self.input_judge = self.input_judge.cuda()
 
         self.var_ref = Variable(self.input_ref, requires_grad=True)
         self.var_p0 = Variable(self.input_p0, requires_grad=True)

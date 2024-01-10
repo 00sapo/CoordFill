@@ -47,7 +47,7 @@ def load_model(weights_path=WEIGHTS_PATH):
     return model
 
 
-def inpaint(model, image: torch.Tensor, mask: torch.Tensor, resize=(2048, 2048)):
+def inpaint(model, image: torch.Tensor, mask: torch.Tensor, resize=(1792, 1792)):
     """
     Input must be Torch tensors of shape (3, H, W) and (1, H, W) respectively with dtype float32 and values in [0, 1].
     """
@@ -77,7 +77,7 @@ def inpaint(model, image: torch.Tensor, mask: torch.Tensor, resize=(2048, 2048))
     return pred
 
 
-def main(img, mask, output, weights=WEIGHTS_PATH, gpu=False, resize=None):
+def main(img, mask, output, weights=WEIGHTS_PATH, gpu=False, resize=(1792, 1792)):
     """
     Performs inpainting on the given image using the given mask and weights and saves the result to the given output path.
     """
