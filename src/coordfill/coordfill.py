@@ -80,7 +80,7 @@ def inpaint(model, image: torch.Tensor, mask: torch.Tensor, resize=(1792, 1792))
     return pred
 
 
-def main(img, mask, output, weights=WEIGHTS_PATH, gpu=False, resize=(1792, 1792)):
+def cli(img, mask, output, weights=WEIGHTS_PATH, gpu=False, resize=(1792, 1792)):
     """
     Performs inpainting on the given image using the given mask and weights and saves the result to the given output path.
     """
@@ -95,7 +95,11 @@ def main(img, mask, output, weights=WEIGHTS_PATH, gpu=False, resize=(1792, 1792)
     save_image(pred, output)
 
 
-if __name__ == "__main__":
+def main():
     import fire
 
-    fire.Fire(main)
+    fire.Fire(cli)
+
+
+if __name__ == "__main__":
+    main()

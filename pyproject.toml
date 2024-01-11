@@ -1,6 +1,6 @@
 [project]
 name = "coordfill"
-version = "0.1.0"
+version = "0.1.1"
 description = "CoordFill image inpainting method"
 authors = [
   { name = "Federico Simonetta", email = "22996003+00sapo@users.noreply.github.com" },
@@ -17,7 +17,7 @@ readme = "README.md"
 license = { text = "MIT" }
 
 [project.scripts]
-coordfill = "coordfill.coordfill"
+coordfill = "coordfill.coordfill:main"
 
 [build-system]
 requires = ["pdm-backend"]
