@@ -4,3 +4,4 @@ load
 .idea
 src/coordfill/encoder-epoch-last.pth
 .pdm-python
+dist

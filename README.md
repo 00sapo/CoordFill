@@ -14,11 +14,11 @@ complete.
 
 ### API
 
-`pip install ....`
+`pip install https://github.com/00sapo/CoordFill/releases/download/v0.1.0/coordfill-0.1.0-py3-none-any.whl`
 
 ### CLI
 
-`pipx install ...`
+`pipx install https://github.com/00sapo/CoordFill/releases/download/v0.1.0/coordfill-0.1.0-py3-none-any.whl`
 
 ## Usage
 
