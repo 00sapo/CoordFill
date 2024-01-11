@@ -3,7 +3,6 @@ from math import pi
 import torch
 import torch as th
 import torch.nn as nn
-import torch.nn.utils.spectral_norm as spectral_norm
 
 from .networks import BaseNetwork
 from .networks import MySeparableBilinearDownsample as BilinearDownsample
@@ -30,7 +29,6 @@ class CoordFillGenerator(BaseNetwork):
         )
         self.lr_instance = opt.lr_instance
         self.learned_ds_factor = opt.learned_ds_factor  # (S2 in sec. 3.2)
-        self.gpu_ids = opt.gpu_ids
 
         self.downsampling = opt.crop_size // opt.ds_scale
 
@@ -117,6 +115,7 @@ class ParaGenNet(th.nn.Module):
     def forward(self, model, x, x_hr):
         structure = model(x)
         if self.scale_injection:
+            print(structure.device)
             scale = (
                 torch.ones(x_hr.size(0), 1, 1, 1) * (structure.size(3) / x_hr.size(3))
             ).to(structure.device)

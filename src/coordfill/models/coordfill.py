@@ -161,7 +161,6 @@ class CoordFill(nn.Module):
         opt.contain_dontcare_label = False
         opt.no_instance_edge = True
         opt.no_instance_dist = True
-        opt.gpu_ids = 0
         opt.output_nc = 3
         opt.hr_width = 64
         opt.hr_depth = 5
@@ -237,4 +236,3 @@ class CoordFill(nn.Module):
             elif strict:
                 if name.find("tail") == -1:
                     raise KeyError('unexpected key "{}" in state_dict'.format(name))
-

@@ -24,13 +24,15 @@ MODEL_CONFIG = {
 
 
 def resize_fn(img, size):
-    return transforms.ToTensor()(transforms.Resize(size)(transforms.ToPILImage()(img)))
+    return transforms.ToTensor()(
+        transforms.Resize(size)(transforms.ToPILImage()(img))
+    ).to(img.device)
 
 
 def to_mask(mask):
     return transforms.ToTensor()(
         transforms.Grayscale(num_output_channels=1)(transforms.ToPILImage()(mask))
-    )
+    ).to(mask.device)
 
 
 def load_image(path):
@@ -43,7 +45,8 @@ def save_image(img, path):
 
 def load_model(weights_path=WEIGHTS_PATH):
     model = models.model_factory(MODEL_CONFIG)
-    model.encoder.load_state_dict(torch.load(weights_path))
+    state_dict = torch.load(str(weights_path), mmap=True, map_location="cpu")
+    model.encoder.load_state_dict(state_dict)
     return model
 
 

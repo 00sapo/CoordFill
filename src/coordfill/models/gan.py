@@ -5,7 +5,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from .coordfill import CoordFill
-from .LPIPS.models import dist_model as dm
 from .tools import register
 
 
@@ -129,22 +128,6 @@ class GAN(nn.Module):
             encoder_spec["attffc"],
             encoder_spec["scale_injection"],
         )
-
-        self.model_LPIPS = dm.DistModel()
-        # self.model_LPIPS.initialize(model="net-lin", net="alex", use_gpu=True)
-
-        self.fm_loss = torch.nn.L1Loss()
-
-        self.discriminator = D_Net(use_sigmoid=True)
-        # self.criterionGAN = AdversarialLoss("nsgan")
-
-        self.lambda_D = 1
-        self.lambda_perceptual = 10
-        self.lambda_fm = 100
-
-        self.multi_res_training = encoder_spec["multi_res_training"]
-        self.optimizer_G = torch.optim.Adam(self.encoder.parameters(), lr=1e-4)
-        self.optimizer_D = torch.optim.Adam(self.discriminator.parameters(), lr=1e-4)
 
     def set_input(self, inp, gt, input_mask):
         if self.multi_res_training:
