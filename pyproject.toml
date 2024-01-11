@@ -1,6 +1,6 @@
 [project]
 name = "coordfill"
-version = "0.1.1"
+version = "0.1.2"
 description = "CoordFill image inpainting method"
 authors = [
   { name = "Federico Simonetta", email = "22996003+00sapo@users.noreply.github.com" },
