@@ -37,8 +37,7 @@ if gpu: # using GPU or not is up to you
     mask = mask.cuda()
 
 # perform Inpainting
-# reshape before inpainting if the image is too large
-pred = inpaint(model, img, mask, resize=(1024, 1024))
+pred = inpaint(model, img, mask)
 
 # if you used cuda, the returned value will be there...
 save_image(pred.cpu(), "out.png")
