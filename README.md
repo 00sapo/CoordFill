@@ -6,6 +6,10 @@ pre-trained weights.
 I have also cleaned the code from the training-related parts, but this is far from being
 complete.
 
+| Input                                 | Mask                                      | Result                                           |
+| ------------------------------------- | ----------------------------------------- | ------------------------------------------------ |
+| ![input image](./example/example.png) | ![mask image](./example/example_mask.png) | ![result image](./example/example_inpainted.png) |
+
 ## Installation
 
 ### API
