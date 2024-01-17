@@ -36,7 +36,10 @@ if gpu: # using GPU or not is up to you
     img = img.cuda()
     mask = mask.cuda()
 
+
 # perform Inpainting
+# img and mask must be torch tensors of shape (3, H, W) and (1, H, W) respectively with
+# dtype float32 and values in [0, 1].
 pred = inpaint(model, img, mask)
 
 # if you used cuda, the returned value will be there...
